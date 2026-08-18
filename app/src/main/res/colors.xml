@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_deep">#08090B</color>
+    <color name="bg_card">#16181C</color>
+    <color name="bg_card_hover">#1E2126</color>
+    <color name="primary_accent">#1DD881</color>
+    <color name="secondary_accent">#FF3D68</color>
+    <color name="text_high">#F5F6F7</color>
+    <color name="text_low">#8B8F96</color>
+
+    <!-- Explore page — olive/lime theme -->
+    <color name="explore_bg">#1B1F14</color>
+    <color name="explore_card">#262B1B</color>
+    <color name="explore_accent">#D7E04A</color>
+    <color name="explore_text_high">#F5F6EE</color>
+    <color name="explore_text_low">#9AA085</color>
+</resources>
