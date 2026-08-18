@@ -24,13 +24,13 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Grant Permission and Clean Build
+    - name: Build APK with Flags
       run: |
         if [ ! -f "gradlew" ]; then
           gradle wrapper
         fi
         chmod +x gradlew
-        ./gradlew clean assembleDebug --stacktrace
+        ./gradlew assembleDebug --no-daemon --stacktrace
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
