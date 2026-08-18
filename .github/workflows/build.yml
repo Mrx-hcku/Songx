@@ -24,12 +24,15 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Grant execute permission for gradlew
+    - name: Check and Build APK
       run: |
+        # Agar gradlew file missing hai toh wrapper generate kar lo, nahi toh permission de do
+        if [ ! -f "gradlew" ]; then
+          echo "gradlew missing, generating wrapper..."
+          gradle wrapper
+        fi
+        
         chmod +x gradlew
-
-    - name: Build Debug APK
-      run: |
         ./gradlew assembleDebug --stacktrace
 
     - name: Upload APK Artifact
