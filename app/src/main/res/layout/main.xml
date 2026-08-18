@@ -1,0 +1,965 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:background="@color/bg_deep">
+
+		<!-- Home Header (hidden on Search / My Music tabs) -->
+		<LinearLayout
+			android:id="@+id/homeHeader"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:background="@color/bg_deep"
+			android:padding="16dp">
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical">
+
+				<TextView
+					android:id="@+id/greetingText"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Good Evening"
+					android:textColor="@color/text_low"
+					android:textSize="12sp" />
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Song"
+					android:textColor="@color/primary_accent"
+					android:textSize="22sp"
+					android:textStyle="bold" />
+			</LinearLayout>
+
+			<FrameLayout
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:background="@drawable/circle_btn_bg">
+				<ImageView
+					android:id="@+id/searchIcon"
+					android:layout_width="18dp"
+					android:layout_height="18dp"
+					android:layout_gravity="center"
+					android:src="@drawable/ic_nav_search"
+					android:tint="@color/primary_accent" />
+			</FrameLayout>
+
+		</LinearLayout>
+
+		<!-- Pull to refresh style progress (simple) -->
+		<ProgressBar
+			android:id="@+id/topProgress"
+			style="?android:attr/progressBarStyleHorizontal"
+			android:layout_width="match_parent"
+			android:layout_height="2dp"
+			android:indeterminate="true"
+			android:visibility="gone" />
+
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1">
+
+			<!-- ===== HOME PAGE ===== -->
+			<ScrollView
+				android:id="@+id/homePage"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:scrollbars="none">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:paddingBottom="24dp">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Top Artists"
+						android:textColor="@color/text_high"
+						android:textSize="16sp"
+						android:textStyle="bold"
+						android:paddingLeft="16dp"
+						android:paddingTop="16dp"
+						android:paddingBottom="12dp" />
+
+					<androidx.recyclerview.widget.RecyclerView
+						android:id="@+id/artistsRow"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal"
+						android:scrollbars="none"
+						android:clipToPadding="false"
+						android:paddingLeft="16dp"
+						android:paddingRight="8dp"
+						android:paddingBottom="8dp" />
+
+					<LinearLayout
+						android:id="@+id/categoriesContainer"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical" />
+
+				</LinearLayout>
+
+			</ScrollView>
+
+			<!-- ===== SEARCH / EXPLORE PAGE ===== -->
+			<ScrollView
+				android:id="@+id/searchPage"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:scrollbars="none"
+				android:background="@color/explore_bg"
+				android:visibility="gone">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Explore"
+						android:textColor="@color/explore_text_high"
+						android:textSize="20sp"
+						android:textStyle="bold"
+						android:paddingBottom="16dp" />
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="48dp"
+						android:orientation="horizontal"
+						android:gravity="center_vertical"
+						android:background="@drawable/explore_search_bar_bg"
+						android:paddingLeft="14dp"
+						android:paddingRight="14dp">
+
+						<ImageView
+							android:layout_width="16dp"
+							android:layout_height="16dp"
+							android:src="@drawable/ic_nav_search"
+							android:tint="@color/explore_text_low"
+							android:layout_marginRight="8dp" />
+
+						<EditText
+							android:id="@+id/searchInput"
+							android:layout_width="0dp"
+							android:layout_height="match_parent"
+							android:layout_weight="1"
+							android:background="@null"
+							android:hint="What do you want to listen to?"
+							android:textColorHint="@color/explore_text_low"
+							android:textColor="@color/explore_text_high"
+							android:textSize="13sp"
+							android:singleLine="true"
+							android:imeOptions="actionSearch" />
+
+					</LinearLayout>
+
+					<androidx.recyclerview.widget.RecyclerView
+						android:id="@+id/searchResultsContainer"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:nestedScrollingEnabled="false"
+						android:paddingTop="16dp"
+						android:visibility="gone" />
+
+					<LinearLayout
+						android:id="@+id/searchBrowseContainer"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="Recently Played"
+							android:textColor="@color/explore_text_high"
+							android:textSize="16sp"
+							android:textStyle="bold"
+							android:paddingTop="20dp"
+							android:paddingBottom="10dp" />
+
+						<androidx.recyclerview.widget.RecyclerView
+							android:id="@+id/recentPlayRow"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:scrollbars="none"
+							android:clipToPadding="false" />
+
+						<TextView
+							android:id="@+id/recentPlayEmpty"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="Jo bhi gaana play karoge wo yaha dikhega"
+							android:textColor="@color/explore_text_low"
+							android:textSize="12sp"
+							android:paddingTop="8dp" />
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="Recommendation"
+							android:textColor="@color/explore_text_high"
+							android:textSize="16sp"
+							android:textStyle="bold"
+							android:paddingTop="24dp"
+							android:paddingBottom="10dp" />
+
+						<androidx.recyclerview.widget.RecyclerView
+							android:id="@+id/recommendationContainer"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:nestedScrollingEnabled="false" />
+
+					</LinearLayout>
+
+				</LinearLayout>
+			</ScrollView>
+
+			<!-- ===== MY MUSIC PAGE ===== -->
+			<ScrollView
+				android:id="@+id/myMusicPage"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:scrollbars="none"
+				android:visibility="gone">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="16dp">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="My Music"
+						android:textColor="@color/text_high"
+						android:textSize="20sp"
+						android:textStyle="bold"
+						android:gravity="center"
+						android:paddingBottom="16dp" />
+
+					<TextView
+						android:id="@+id/createPlaylistButton"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="+  Create New Playlist"
+						android:textColor="@color/bg_deep"
+						android:textStyle="bold"
+						android:textSize="14sp"
+						android:gravity="center"
+						android:padding="13dp"
+						android:background="@drawable/accent_pill_bg" />
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Your Playlists"
+						android:textColor="@color/text_high"
+						android:textSize="16sp"
+						android:textStyle="bold"
+						android:paddingTop="22dp"
+						android:paddingBottom="10dp" />
+
+					<androidx.recyclerview.widget.RecyclerView
+						android:id="@+id/playlistsContainer"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:nestedScrollingEnabled="false" />
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Downloaded Songs"
+						android:textColor="@color/text_high"
+						android:textSize="16sp"
+						android:textStyle="bold"
+						android:paddingTop="24dp"
+						android:paddingBottom="10dp" />
+
+					<androidx.recyclerview.widget.RecyclerView
+						android:id="@+id/downloadsContainer"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:nestedScrollingEnabled="false" />
+
+					<TextView
+						android:id="@+id/downloadsEmpty"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Koi download nahi hai abhi"
+						android:textColor="@color/text_low"
+						android:textSize="12sp" />
+
+				</LinearLayout>
+			</ScrollView>
+
+			<!-- ===== PROFILE PAGE ===== -->
+			<ScrollView
+				android:id="@+id/profilePage"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:scrollbars="none"
+				android:visibility="gone">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical"
+					android:padding="20dp">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:text="Profile"
+						android:textColor="@color/text_high"
+						android:textSize="20sp"
+						android:textStyle="bold"
+						android:paddingBottom="20dp" />
+
+					<!-- Avatar + camera badge -->
+					<FrameLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:layout_marginBottom="16dp">
+
+						<ImageView
+							android:id="@+id/profilePhoto"
+							android:layout_width="104dp"
+							android:layout_height="104dp"
+							android:scaleType="centerCrop"
+							android:background="@drawable/profile_avatar_frame" />
+
+						<FrameLayout
+							android:id="@+id/profileChangePhotoButton"
+							android:layout_width="32dp"
+							android:layout_height="32dp"
+							android:layout_gravity="bottom|right"
+							android:background="@drawable/camera_edit_badge_bg">
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_gravity="center"
+								android:text="＋"
+								android:textColor="#06170C"
+								android:textSize="16sp"
+								android:textStyle="bold" />
+						</FrameLayout>
+
+						<ProgressBar
+							android:id="@+id/photoUploadProgress"
+							android:layout_width="104dp"
+							android:layout_height="104dp"
+							android:indeterminateTint="@color/primary_accent"
+							android:visibility="gone" />
+
+					</FrameLayout>
+
+					<!-- Name + inline edit -->
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:orientation="horizontal"
+						android:gravity="center_vertical">
+
+						<TextView
+							android:id="@+id/profileNameText"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Name"
+							android:textColor="@color/text_high"
+							android:textSize="19sp"
+							android:textStyle="bold"
+							android:maxWidth="220dp"
+							android:singleLine="true"
+							android:ellipsize="end" />
+
+						<TextView
+							android:id="@+id/profileEditNameButton"
+							android:layout_width="30dp"
+							android:layout_height="30dp"
+							android:text="✎"
+							android:textColor="@color/primary_accent"
+							android:textSize="15sp"
+							android:gravity="center"
+							android:layout_marginLeft="6dp" />
+
+					</LinearLayout>
+
+					<TextView
+						android:id="@+id/profileEmailText"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:text="email@example.com"
+						android:textColor="@color/text_low"
+						android:textSize="13sp"
+						android:layout_marginTop="2dp" />
+
+					<TextView
+						android:id="@+id/profileSubscriptionText"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_horizontal"
+						android:text="Free Plan"
+						android:textColor="@color/primary_accent"
+						android:textSize="11sp"
+						android:textStyle="bold"
+						android:gravity="center"
+						android:paddingLeft="16dp"
+						android:paddingRight="16dp"
+						android:paddingTop="6dp"
+						android:paddingBottom="6dp"
+						android:layout_marginTop="14dp"
+						android:background="@drawable/plan_chip_bg" />
+
+					<!-- Account card -->
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:background="@drawable/profile_card_bg"
+						android:layout_marginTop="28dp"
+						android:padding="4dp">
+
+						<LinearLayout
+							android:id="@+id/profileEditNameRow"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:gravity="center_vertical"
+							android:padding="16dp">
+							<TextView
+								android:layout_width="0dp"
+								android:layout_height="wrap_content"
+								android:layout_weight="1"
+								android:text="Edit name"
+								android:textColor="@color/text_high"
+								android:textSize="14sp" />
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="›"
+								android:textColor="@color/text_low"
+								android:textSize="18sp" />
+						</LinearLayout>
+
+						<View
+							android:layout_width="match_parent"
+							android:layout_height="1dp"
+							android:background="#20261F"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp" />
+
+						<LinearLayout
+							android:id="@+id/profileChangePhotoRow"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:gravity="center_vertical"
+							android:padding="16dp">
+							<TextView
+								android:layout_width="0dp"
+								android:layout_height="wrap_content"
+								android:layout_weight="1"
+								android:text="Change photo"
+								android:textColor="@color/text_high"
+								android:textSize="14sp" />
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="›"
+								android:textColor="@color/text_low"
+								android:textSize="18sp" />
+						</LinearLayout>
+
+						<View
+							android:layout_width="match_parent"
+							android:layout_height="1dp"
+							android:background="#20261F"
+							android:layout_marginLeft="16dp"
+							android:layout_marginRight="16dp" />
+
+						<LinearLayout
+							android:id="@+id/profileUpgradeRow"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:gravity="center_vertical"
+							android:padding="16dp">
+							<TextView
+								android:id="@+id/profileUpgradeText"
+								android:layout_width="0dp"
+								android:layout_height="wrap_content"
+								android:layout_weight="1"
+								android:text="Upgrade to Premium — ₹30/month"
+								android:textColor="@color/primary_accent"
+								android:textStyle="bold"
+								android:textSize="14sp" />
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:text="›"
+								android:textColor="@color/text_low"
+								android:textSize="18sp" />
+						</LinearLayout>
+
+					</LinearLayout>
+
+					<!-- Logout -->
+					<LinearLayout
+						android:id="@+id/profileLogoutButton"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal"
+						android:gravity="center"
+						android:background="@drawable/profile_card_bg"
+						android:padding="15dp"
+						android:layout_marginTop="16dp">
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Log out"
+							android:textColor="#FF3D68"
+							android:textStyle="bold"
+							android:textSize="14sp" />
+					</LinearLayout>
+
+				</LinearLayout>
+			</ScrollView>
+
+		</FrameLayout>
+
+		<!-- ===== BANNER AD ===== -->
+		<FrameLayout
+			android:id="@+id/bannerAdView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center" />
+
+		<!-- ===== MINI PLAYER BAR (visible once a track has played) ===== -->
+		<LinearLayout
+			android:id="@+id/miniPlayer"
+			android:layout_width="match_parent"
+			android:layout_height="60dp"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:background="@color/bg_card_hover"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:visibility="gone">
+
+			<ImageView
+				android:id="@+id/miniAlbumArt"
+				android:layout_width="42dp"
+				android:layout_height="42dp"
+				android:scaleType="centerCrop"
+				android:background="#333333" />
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:paddingLeft="10dp">
+
+				<TextView
+					android:id="@+id/miniTitle"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Song Title"
+					android:textColor="@color/text_high"
+					android:textSize="13sp"
+					android:textStyle="bold"
+					android:singleLine="true"
+					android:ellipsize="marquee" />
+
+				<TextView
+					android:id="@+id/miniArtist"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Artist"
+					android:textColor="@color/text_low"
+					android:textSize="11sp"
+					android:singleLine="true"
+					android:ellipsize="end" />
+			</LinearLayout>
+
+			<ProgressBar
+				android:id="@+id/miniBufferingSpinner"
+				android:layout_width="24dp"
+				android:layout_height="24dp"
+				android:layout_marginRight="6dp"
+				android:indeterminateTint="@color/primary_accent"
+				android:visibility="gone" />
+
+			<ImageView
+				android:id="@+id/miniPlayPause"
+				android:layout_width="36dp"
+				android:layout_height="36dp"
+				android:padding="6dp"
+				android:src="@drawable/ic_play"
+				android:tint="@color/primary_accent" />
+
+		</LinearLayout>
+
+		<!-- ===== BOTTOM NAVIGATION ===== -->
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:background="@color/bg_card"
+			android:paddingTop="8dp"
+			android:paddingBottom="8dp">
+
+			<LinearLayout
+				android:id="@+id/navHome"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:gravity="center">
+				<ImageView android:id="@+id/navHomeIcon" android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_home" android:tint="@color/primary_accent" />
+				<TextView android:id="@+id/navHomeLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Home" android:textSize="10sp" android:textColor="@color/primary_accent" android:layout_marginTop="4dp" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/navSearch"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:gravity="center">
+				<ImageView android:id="@+id/navSearchIcon" android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_search" android:tint="@color/text_low" />
+				<TextView android:id="@+id/navSearchLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Search" android:textSize="10sp" android:textColor="@color/text_low" android:layout_marginTop="4dp" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/navMyMusic"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:gravity="center">
+				<ImageView android:id="@+id/navMyMusicIcon" android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_music" android:tint="@color/text_low" />
+				<TextView android:id="@+id/navMyMusicLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="My Music" android:textSize="10sp" android:textColor="@color/text_low" android:layout_marginTop="4dp" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:id="@+id/navSettings"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:gravity="center">
+				<ImageView android:id="@+id/navSettingsIcon" android:layout_width="22dp" android:layout_height="22dp" android:src="@drawable/ic_nav_settings" android:tint="@color/text_low" />
+				<TextView android:id="@+id/navSettingsLabel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Profile" android:textSize="10sp" android:textColor="@color/text_low" android:layout_marginTop="4dp" />
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<!-- ===== FULL PLAYER (Now Playing) — overlays everything, including bottom nav ===== -->
+	<LinearLayout
+		android:id="@+id/playerFullScreen"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:background="@color/bg_deep"
+		android:padding="20dp"
+		android:visibility="gone">
+
+		<!-- Top bar -->
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:paddingBottom="10dp">
+
+			<ImageView
+				android:id="@+id/playerCollapseBtn"
+				android:layout_width="34dp"
+				android:layout_height="34dp"
+				android:padding="6dp"
+				android:src="@drawable/ic_chevron_down"
+				android:tint="@color/text_high" />
+
+			<TextView
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="NOW PLAYING"
+				android:textColor="@color/text_low"
+				android:textSize="12sp"
+				android:textStyle="bold"
+				android:gravity="center"
+				android:letterSpacing="0.1" />
+
+			<ImageView
+				android:id="@+id/playerQueueBtn"
+				android:layout_width="34dp"
+				android:layout_height="34dp"
+				android:padding="7dp"
+				android:src="@drawable/ic_nav_music"
+				android:tint="@color/text_high" />
+
+			<ImageView
+				android:id="@+id/playerMenuBtn"
+				android:layout_width="34dp"
+				android:layout_height="34dp"
+				android:padding="7dp"
+				android:src="@drawable/ic_menu_dots"
+				android:tint="@color/text_high" />
+
+		</LinearLayout>
+
+		<!-- Circular album art with progress ring -->
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dp"
+			android:layout_weight="1"
+			android:gravity="center">
+
+			<com.song.Song.CircularProgressView
+				android:id="@+id/circularProgress"
+				android:layout_width="260dp"
+				android:layout_height="260dp"
+				android:layout_gravity="center" />
+
+			<ImageView
+				android:id="@+id/playerAlbumArt"
+				android:layout_width="212dp"
+				android:layout_height="212dp"
+				android:layout_gravity="center"
+				android:scaleType="centerCrop"
+				android:background="#333333" />
+
+			<ProgressBar
+				android:id="@+id/bufferingSpinner"
+				android:layout_width="46dp"
+				android:layout_height="46dp"
+				android:layout_gravity="center"
+				android:indeterminateTint="@color/primary_accent"
+				android:visibility="gone" />
+
+		</FrameLayout>
+
+		<!-- Title / artist / heart / share -->
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:paddingTop="14dp">
+
+			<ImageView
+				android:id="@+id/playerHeart"
+				android:layout_width="34dp"
+				android:layout_height="34dp"
+				android:padding="6dp"
+				android:src="@drawable/ic_heart_outline" />
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:gravity="center">
+
+				<TextView
+					android:id="@+id/playerTitle"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Song Title"
+					android:textColor="@color/text_high"
+					android:textSize="19sp"
+					android:textStyle="bold"
+					android:singleLine="true"
+					android:ellipsize="end"
+					android:maxWidth="220dp" />
+
+				<TextView
+					android:id="@+id/playerArtist"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Artist"
+					android:textColor="@color/text_low"
+					android:textSize="13sp"
+					android:singleLine="true"
+					android:ellipsize="end"
+					android:maxWidth="220dp" />
+			</LinearLayout>
+
+			<ImageView
+				android:id="@+id/playerShare"
+				android:layout_width="34dp"
+				android:layout_height="34dp"
+				android:padding="6dp"
+				android:src="@drawable/ic_share"
+				android:tint="@color/text_low" />
+
+		</LinearLayout>
+
+		<!-- Seek bar + time -->
+		<SeekBar
+			android:id="@+id/playerSeekBar"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:progressTint="@color/primary_accent"
+			android:thumbTint="@color/primary_accent"
+			android:maxHeight="4dp"
+			android:minHeight="4dp"
+			android:max="1000" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:id="@+id/playerTimeCurrent"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="0:00"
+				android:textColor="@color/text_low"
+				android:textSize="11sp" />
+
+			<TextView
+				android:id="@+id/playerTimeTotal"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:text="0:00"
+				android:textColor="@color/text_low"
+				android:textSize="11sp"
+				android:gravity="right" />
+		</LinearLayout>
+
+		<!-- Controls -->
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:paddingTop="16dp">
+
+			<FrameLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:gravity="center">
+				<ImageView
+					android:id="@+id/playerShuffleBtn"
+					android:layout_width="wrap_content"
+					android:layout_height="30dp"
+					android:padding="4dp"
+					android:src="@drawable/ic_shuffle"
+					android:tint="@color/text_low" />
+			</FrameLayout>
+
+			<FrameLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:gravity="center">
+				<ImageView
+					android:id="@+id/playerPrevBtn"
+					android:layout_width="wrap_content"
+					android:layout_height="34dp"
+					android:src="@drawable/ic_prev"
+					android:tint="@color/text_high" />
+			</FrameLayout>
+
+			<FrameLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1.4"
+				android:gravity="center">
+				<ImageView
+					android:id="@+id/playerPlayPauseBtn"
+					android:layout_width="62dp"
+					android:layout_height="62dp"
+					android:padding="18dp"
+					android:background="@drawable/play_badge_bg"
+					android:src="@drawable/ic_play" />
+			</FrameLayout>
+
+			<FrameLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:gravity="center">
+				<ImageView
+					android:id="@+id/playerNextBtn"
+					android:layout_width="wrap_content"
+					android:layout_height="34dp"
+					android:src="@drawable/ic_next"
+					android:tint="@color/text_high" />
+			</FrameLayout>
+
+			<FrameLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:gravity="center">
+				<ImageView
+					android:id="@+id/playerRepeatBtn"
+					android:layout_width="wrap_content"
+					android:layout_height="34dp"
+					android:src="@drawable/ic_repeat"
+					android:tint="@color/text_low" />
+			</FrameLayout>
+
+		</LinearLayout>
+
+		<!-- Lyrics (tap opens a dialog with the lyrics) -->
+		<LinearLayout
+			android:id="@+id/playerLyricsToggle"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:gravity="center"
+			android:paddingTop="18dp">
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="LYRICS"
+				android:textColor="@color/text_low"
+				android:textSize="11sp"
+				android:letterSpacing="0.1" />
+
+			<ImageView
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:src="@drawable/ic_chevron_down"
+				android:tint="@color/text_low" />
+		</LinearLayout>
+
+	</LinearLayout>
+
+</FrameLayout>
