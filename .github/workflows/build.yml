@@ -24,17 +24,15 @@ jobs:
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
 
-    - name: Grant execute permission for gradlew
+    - name: Build Debug APK inside Song folder
       run: |
+        cd Song
         chmod +x gradlew
-
-    - name: Build Debug APK
-      run: |
         ./gradlew assembleDebug --stacktrace
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: Song/app/build/outputs/apk/debug/app-debug.apk
         
