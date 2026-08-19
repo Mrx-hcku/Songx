@@ -402,7 +402,8 @@ class MusicService : Service() {
     private fun buildNotification(track: Track): Notification {
         var contentFlags = PendingIntent.FLAG_UPDATE_CURRENT
         if (Build.VERSION.SDK_INT >= 23) contentFlags = contentFlags or PendingIntent.FLAG_IMMUTABLE
-        val openApp = Intent(this, MainActivity::class.java)
+        val openApp = Intent()
+        openApp.setClassName(packageName, "com.song.Song.MainActivity")
         val contentIntent = PendingIntent.getActivity(this, 0, openApp, contentFlags)
 
         val mediaStyle = androidx.media.app.NotificationCompat.MediaStyle()
